@@ -4,78 +4,172 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Twibbon Resmi Komunitas</title>
-    <!-- MENGGUNAKAN CDN TAILWIND V2/V3 STABIL YANG AMAN DI VERCEL -->
-    <link href="https://jsdelivr.net" rel="stylesheet">
     <style>
-        #canvasContainer canvas {
-            max-width: 100%;
-            height: auto !important;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        /* CSS Internal Murni - 100% Lancar dan Rapi di Vercel */
+        body { 
+            background-color: #f3f4f6; 
+            font-family: sans-serif; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            padding: 16px; 
+            margin: 0; 
+            min-height: 100vh; 
+            box-sizing: border-box; 
+        }
+        .card { 
+            background-color: white; 
+            padding: 32px; 
+            border-radius: 16px; 
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); 
+            width: 100%; 
+            max-width: 440px; 
+            text-align: center; 
+            box-sizing: border-box; 
+        }
+        .title { 
+            font-size: 24px; 
+            font-weight: bold; 
+            color: #1f2937; 
+            margin-bottom: 8px; 
+            margin-top: 0; 
+        }
+        .subtitle { 
+            font-size: 14px; 
+            color: #6b7280; 
+            margin-bottom: 24px; 
+        }
+        .input-text { 
+            width: 100%; 
+            padding: 12px; 
+            border: 1px solid #d1d5db; 
+            border-radius: 8px; 
+            text-align: center; 
+            margin-bottom: 16px; 
+            box-sizing: border-box; 
+            font-weight: 600; 
+            font-size: 14px;
+        }
+        .btn-blue { 
+            width: 100%; 
+            background: #2563eb; 
+            color: white; 
+            font-weight: 600; 
+            padding: 12px; 
+            border: none; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            transition: 0.2s; 
+            font-size: 14px;
+        }
+        .btn-blue:hover { 
+            background: #1d4ed8; 
+        }
+        .error-text { 
+            color: #ef4444; 
+            font-size: 14px; 
+            margin-top: 12px; 
+            display: none; 
+        }
+        #canvasContainer canvas { 
+            max-width: 100%; 
+            height: auto !important; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); 
+        }
+        .control-group { 
+            text-align: left; 
+            margin-bottom: 16px; 
+        }
+        .control-group label { 
+            display: block; 
+            font-size: 14px; 
+            font-weight: 500; 
+            color: #374151; 
+            margin-bottom: 6px; 
+        }
+        .select-box { 
+            width: 100%; 
+            padding: 10px; 
+            border: 1px solid #d1d5db; 
+            border-radius: 8px; 
+            background: white; 
+            font-size: 14px; 
+        }
+        .range-slider { 
+            width: 100%; 
+            margin-top: 8px; 
+            accent-color: #2563eb; 
+        }
+        .btn-download { 
+            width: 100%; 
+            background: #9ca3af; 
+            color: white; 
+            font-weight: bold; 
+            padding: 14px; 
+            border: none; 
+            border-radius: 12px; 
+            cursor: not-allowed; 
+            margin-top: 16px; 
+            font-size: 16px;
         }
     </style>
 </head>
-<body class="bg-gray-100 font-sans min-h-screen flex flex-col items-center justify-center p-4">
+<body>
 
-    <!-- 1. HALAMAN LOGIN / PROTEKSI KOMUNITAS -->
-    <div id="loginPage" class="bg-white p-8 rounded-2xl shadow-md w-full max-w-md text-center block">
-        <div class="flex justify-center mb-4">
-            <img src="https://picsum.photos" id="communityLogoLogin" alt="Logo Komunitas" class="w-20 h-20 object-contain rounded-full shadow-sm">
+    <!-- 1. HALAMAN LOGIN -->
+    <div id="loginPage" class="card">
+        <div style="display:flex; justify-content:center; margin-bottom:16px;">
+            <img src="https://picsum.photos" id="communityLogoLogin" alt="Logo" style="width:80px; height:80px; object-fit:contain; border-radius:50%;">
         </div>
-        <h1 class="text-2xl font-bold text-gray-800 mb-2">🛡️ Twibbon Komunitas</h1>
-        <p class="text-gray-500 text-sm mb-6">Masukkan kata sandi komunitas untuk mengakses aplikasi.</p>
-        <input type="password" id="passwordInput" placeholder="Kata Sandi Komunitas" 
-               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4 text-center">
-        <button onclick="cekPassword()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition">
-            Masuk Aplikasi
-        </button>
-        <p id="loginError" class="text-red-500 text-sm mt-3 hidden">Kata sandi salah, Bro! Silakan tanya admin.</p>
+        <h1 class="title">🛡️ Twibbon Komunitas</h1>
+        <p class="subtitle">Masukkan kata sandi komunitas untuk mengakses aplikasi.</p>
+        <input type="password" id="passwordInput" placeholder="Kata Sandi Komunitas" class="input-text">
+        <button onclick="cekPassword()" class="btn-blue">Masuk Aplikasi</button>
+        <p id="loginError" class="error-text">Kata sandi salah, Bro! Silakan tanya admin.</p>
     </div>
 
     <!-- 2. HALAMAN UTAMA TWIBBON -->
-    <div id="mainPage" class="bg-white p-6 rounded-2xl shadow-md w-full max-w-xl hidden text-center">
-        
-        <div class="flex items-center justify-center gap-3 mb-4 border-b border-gray-100 pb-4">
-            <img src="https://picsum.photos" id="communityLogoMain" alt="Logo" class="w-12 h-12 object-contain rounded-full">
-            <div class="text-left ml-3">
-                <h1 class="text-xl font-bold text-gray-800 leading-tight">Twibbon Maker</h1>
-                <p class="text-xs text-gray-500">Official Community Web App</p>
+    <div id="mainPage" class="card" style="display: none; max-width: 500px;">
+        <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 16px; border-bottom: 1px solid #f3f4f6; padding-bottom: 16px;">
+            <img src="https://picsum.photos" id="communityLogoMain" alt="Logo" style="width:48px; height:48px; object-fit:contain; border-radius:50%;">
+            <div style="text-align: left; margin-left: 8px;">
+                <h1 style="font-size:18px; font-weight:bold; color:#1f2937; margin:0;">Twibbon Maker</h1>
+                <p style="font-size:12px; color:#6b7280; margin:0;">Official Community Web App</p>
             </div>
         </div>
 
-        <!-- Area Canvas -->
-        <div id="canvasContainer" class="flex justify-center mb-6 bg-gray-50 p-2 rounded-xl border border-dashed border-gray-300">
-            <canvas id="twibbonCanvas" width="800" height="800" class="w-full max-w-[400px] aspect-square"></canvas>
+        <div id="canvasContainer" style="display:flex; justify-content:center; margin-bottom:24px; background:#f9fafb; padding:8px; border-radius:12px; border:1px dashed #d1d5db;">
+            <canvas id="twibbonCanvas" width="800" height="800" style="width: 100%; max-width:360px; aspect-ratio: 1/1;"></canvas>
         </div>
 
-        <!-- Kontrol Pilihan, Input Nama, dan Upload -->
-        <div class="space-y-4 text-left max-w-sm mx-auto">
-            <div class="mb-3">
-                <label class="block text-sm font-medium text-gray-700 mb-1">1. Pilih Bingkai / Peringkat</label>
-                <select id="pilihBingkai" onchange="gantiBingkai(this.value)" class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+        <div style="max-width: 360px; margin: 0 auto;">
+            <div class="control-group">
+                <label>1. Pilih Bingkai / Peringkat</label>
+                <select id="pilihBingkai" onchange="gantiBingkai(this.value)" class="select-box">
                     <option value="umum">Bingkai Utama (Semua Member)</option>
                     <option value="rank1">Bingkai Peringkat 1 (Bronze)</option>
                     <option value="rank2">Bingkai Peringkat 2 (Silver)</option>
                 </select>
             </div>
 
-            <div class="mb-3">
-                <label class="block text-sm font-medium text-gray-700 mb-1">2. Tulis Nama Member</label>
-                <input type="text" id="inputNama" oninput="updateNama(this.value)" placeholder="CONTOH: BUDI SANTOSO" 
-                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm font-semibold">
+            <div class="control-group">
+                <label>2. Tulis Nama Member</label>
+                <input type="text" id="inputNama" oninput="updateNama(this.value)" placeholder="CONTOH: BUDI SANTOSO" class="input-text" style="text-transform: uppercase; margin-bottom: 0;">
             </div>
 
-            <div class="mb-3">
-                <label class="block text-sm font-medium text-gray-700 mb-1">3. Upload Fotomu</label>
-                <input type="file" id="uploadFoto" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+            <div class="control-group" style="margin-top: 16px;">
+                <label>3. Upload Fotomu</label>
+                <input type="file" id="uploadFoto" accept="image/*" style="font-size:14px; color:#6b7280; width: 100%;">
             </div>
 
-            <div id="sliderKontrol" class="hidden space-y-2 mb-3">
-                <label class="block text-sm font-medium text-gray-700">4. Atur Ukuran Foto (Zoom)</label>
-                <input type="range" id="zoomSlider" min="0.1" max="3" step="0.01" value="1" class="w-full accent-blue-600">
+            <div id="sliderKontrol" class="control-group" style="display:none;">
+                <label>4. Atur Ukuran Foto (Zoom)</label>
+                <input type="range" id="zoomSlider" min="0.1" max="3" step="0.01" value="1" class="range-slider">
             </div>
 
-            <button id="btnDownload" onclick="downloadHasil()" disabled class="w-full bg-gray-400 text-white font-bold py-3 rounded-xl transition cursor-not-allowed mt-4">
+            <button id="btnDownload" onclick="downloadHasil()" disabled class="btn-download">
                 5. Download Twibbon
             </button>
         </div>
@@ -84,11 +178,11 @@
     <script>
         // --- KONFIGURASI UTAMA ---
         const PASSWORD_KOMUNITAS = "KopiHitam2026"; 
-        const URL_LOGO_KOMUNITAS = "https://picsum.photos"; 
+        const URL_LOGO_KOMUNITAS = "https://picsum.photos"; // Gantilah dengan logo komunitasmu
 
         const DAFTAR_BINGKAI = {
             umum: "https://picsum.photos",  
-            rank1: "https://picsum.photos", 
+            rank1: "https://picsum.photos", // Taruh direct link gambar Bronze (.png) di sini
             rank2: "https://picsum.photos"  
         };
 
@@ -109,12 +203,11 @@
         function cekPassword() {
             const input = document.getElementById('passwordInput').value;
             if (input === PASSWORD_KOMUNITAS) {
-                // Sembunyikan halaman login dan tampilkan editor
                 document.getElementById('loginPage').style.display = 'none';
-                document.getElementById('mainPage').classList.remove('hidden');
+                document.getElementById('mainPage').style.display = 'block';
                 gantiBingkai('umum');
             } else {
-                document.getElementById('loginError').classList.remove('hidden');
+                document.getElementById('loginError').style.display = 'block';
             }
         }
 
@@ -130,7 +223,7 @@
         }
 
         document.getElementById('uploadFoto').addEventListener('change', function(e) {
-            const file = e.target.files;
+            const file = e.target.files[0];
             if (!file) return;
             const reader = new FileReader();
             reader.onload = function(event) {
@@ -138,12 +231,12 @@
                     fotoX = canvas.width / 2; fotoY = canvas.height / 2;
                     fotoScale = Math.max(canvas.width / fotoUser.width, canvas.height / fotoUser.height);
                     document.getElementById('zoomSlider').value = fotoScale;
-                    document.getElementById('sliderKontrol').classList.remove('hidden');
+                    document.getElementById('sliderKontrol').style.display = 'block';
                     
                     const btn = document.getElementById('btnDownload');
                     btn.disabled = false;
-                    btn.classList.remove('bg-gray-400', 'cursor-not-allowed');
-                    btn.classList.add('bg-green-600', 'hover:bg-green-700');
+                    btn.style.background = '#10b981';
+                    btn.style.cursor = 'pointer';
                     gambarUlangCanvas();
                 };
                 fotoUser.src = event.target.result;
@@ -159,45 +252,3 @@
                 ctx.translate(fotoX, fotoY);
                 ctx.scale(fotoScale, fotoScale);
                 ctx.drawImage(fotoUser, -fotoUser.width / 2, -fotoUser.height / 2);
-                ctx.restore();
-            }
-
-            if (bingkaiTwibbon.complete) {
-                ctx.drawImage(bingkaiTwibbon, 0, 0, canvas.width, canvas.height);
-            }
-
-            if (namaMember.trim() !== "") {
-                ctx.save();
-                ctx.font = "bold 32px sans-serif"; 
-                ctx.fillStyle = "#3e2723"; 
-                ctx.textAlign = "center";
-                ctx.textBaseline = "middle";
-                ctx.fillText(namaMember, 400, 858); 
-                ctx.restore();
-            }
-        }
-
-        document.getElementById('zoomSlider').addEventListener('input', function(e) {
-            fotoScale = parseFloat(e.target.value);
-            gambarUlangCanvas();
-        });
-
-        canvas.addEventListener('mousedown', (e) => { isDragging = true; startX = e.offsetX; startY = e.offsetY; });
-        canvas.addEventListener('mousemove', (e) => {
-            if (!isDragging || !fotoUser.src) return;
-            const dx = e.offsetX - startX; const dy = e.offsetY - startY;
-            const rect = canvas.getBoundingClientRect();
-            fotoX += dx * (canvas.width / rect.width); fotoY += dy * (canvas.height / rect.height);
-            startX = e.offsetX; startY = e.offsetY;
-            gambarUlangCanvas();
-        });
-        window.addEventListener('mouseup', () => isDragging = false);
-
-        canvas.addEventListener('touchstart', (e) => {
-            if(e.touches.length === 1) {
-                isDragging = true; const rect = canvas.getBoundingClientRect();
-                startX = e.touches.clientX - rect.left; startY = e.touches.clientY - rect.top;
-            }
-        });
-        canvas.addEventListener('touchmove', (e) => {
-            if (!isDragging || !fotoUser.src || e.touches.length !== 1) return;
