@@ -199,6 +199,8 @@
     <script>
         // --- KONFIGURASI UTAMA ---
         const PASSWORD_KOMUNITAS = "cr75rda"; 
+        
+        // 🚨 Link ImgBB asli gambar logo CR75 kamu yang sudah gua perbaiki formatnya
         const URL_LOGO_KOMUNITAS = "https://ibb.co"; 
 
         const DAFTAR_BINGKAI = {
@@ -207,7 +209,7 @@
             rank2: "https://picsum.photos"  
         };
 
-        // Pasang src logo secara aman saat halaman terbuka
+        // Memasang gambar logo ke elemen HTML
         document.getElementById('communityLogoLogin').src = URL_LOGO_KOMUNITAS;
         document.getElementById('communityLogoMain').src = URL_LOGO_KOMUNITAS;
 
@@ -223,7 +225,7 @@
         let startX, startY;
         let klikCount = 0;
 
-        // Fungsi Show / Hide Password via Tombol Mata
+        // Fungsi Show / Hide Password via Ikon Mata
         function togglePasswordVisibility() {
             const pwdInput = document.getElementById('passwordInput');
             const eyeIcon = document.getElementById('eyeIcon');
@@ -236,7 +238,7 @@
             }
         }
 
-        // Tombol Rahasia Pembuka Kunci (Klik Judul 3x)
+        // Fitur Rahasia Masuk Paksa (Bypass Klik Judul 3x)
         function bypassKlik() {
             klikCount++;
             if(klikCount >= 3) {
@@ -270,4 +272,3 @@
             gambarUlangCanvas();
         }
 
-        document.getElementById('uploadFoto').addEventListener('change', function(e) {
