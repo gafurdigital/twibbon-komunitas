@@ -1,13 +1,3 @@
-Ketemu masalahnya, Bro! Dari screenshot GitHub kamu, ternyata kamu mengedit kode di baris bawah, tapi kode HTML aslinya yang di bagian atas belum terhubung dengan benar, plus ada masalah domain ImgBB (.co.com) yang diblokir oleh sistem browser.
-Gua sudah perbaiki total kodenya! Di versi ini, gua beresin 3 hal penting:
-1. Tombol Mata (Show/Hide Password): Sekarang ada ikon mata di sebelah kanan kolom input sandi agar kamu bisa memastikan ketikanmu tidak salah.
-2. Perbaikan Link Logo: Link gambar dari ImgBB kamu gua perbaiki format domainnya agar lolos dari blokir sistem keamanan Vercel.
-3. Penyelarasan Variabel Kunci: Mengamankan fungsi tombol masuk agar 100% membaca sandi baru kamu (cr75rda).
-Silakan buka GitHub kamu, klik edit file index.html, lalu timpa (replace) seluruh kodenya dari baris paling atas sampai paling bawah dengan kode murni di bawah ini:
-
-📄 File Update Mutakhir: index.html
-
-html
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -33,7 +23,6 @@ html
             border-radius: 16px; 
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); 
             width: 100%; 
-            max-w: 440px; 
             max-width: 440px; 
             text-align: center; 
             box-sizing: border-box; 
@@ -282,95 +271,3 @@ html
         }
 
         document.getElementById('uploadFoto').addEventListener('change', function(e) {
-Gunakan kode dengan hati-hati.
-const file = e.target.files;
-if (!file) return;
-const reader = new FileReader();
-reader.onload = function(event) {
-fotoUser.onload = () => {
-fotoX = canvas.width / 2; fotoY = canvas.height / 2;
-fotoScale = Math.max(canvas.width / fotoUser.width, canvas.height / fotoUser.height);
-document.getElementById('zoomSlider').value = fotoScale;
-document.getElementById('sliderKontrol').style.style.display = 'block';
-document.getElementById('sliderKontrol').style.display = 'block';
-const btn = document.getElementById('btnDownload');
-btn.disabled = false;
-btn.style.background = '#10b981';
-btn.style.cursor = 'pointer';
-gambarUlangCanvas();
-};
-fotoUser.src = event.target.result;
-};
-reader.readAsDataURL(file);
-});
-function gambarUlangCanvas() {
-ctx.clearRect(0, 0, canvas.width, canvas.height);
-if (fotoUser.src) {
-ctx.save();
-ctx.translate(fotoX, fotoY);
-ctx.scale(fotoScale, fotoScale);
-ctx.drawImage(fotoUser, -fotoUser.width / 2, -fotoUser.height / 2);
-ctx.restore();
-}
-if (bingkaiTwibbon.complete) {
-ctx.drawImage(bingkaiTwibbon, 0, 0, canvas.width, canvas.height);
-}
-if (namaMember.trim() !== "") {
-ctx.save();
-ctx.font = "bold 32px sans-serif";
-ctx.fillStyle = "#3e2723";
-ctx.textAlign = "center";
-ctx.textBaseline = "middle";
-ctx.fillText(namaMember, 400, 858);
-ctx.restore();
-}
-}
-document.getElementById('zoomSlider').addEventListener('input', function(e) {
-fotoScale = parseFloat(e.target.value);
-gambarUlangCanvas();
-});
-canvas.addEventListener('mousedown', (e) => { isDragging = true; startX = e.offsetX; startY = e.offsetY; });
-canvas.addEventListener('mousemove', (e) => {
-if (!isDragging || !fotoUser.src) return;
-const dx = e.offsetX - startX; const dy = e.offsetY - startY;
-const rect = canvas.getBoundingClientRect();
-fotoX += dx * (canvas.width / rect.width); fotoY += dy * (canvas.height / rect.height);
-startX = e.offsetX; startY = e.offsetY;
-gambarUlangCanvas();
-});
-window.addEventListener('mouseup', () => isDragging = false);
-canvas.addEventListener('touchstart', (e) => {
-if(e.touches.length === 1) {
-isDragging = true; const rect = canvas.getBoundingClientRect();
-startX = e.touches.clientX - rect.left; startY = e.touches.clientY - rect.top;
-}
-});
-canvas.addEventListener('touchmove', (e) => {
-if (!isDragging || !fotoUser.src || e.touches.length !== 1) return;
-const rect = canvas.getBoundingClientRect();
-const currentX = e.touches.clientX - rect.left; const currentY = e.touches.clientY - rect.top;
-const dx = currentX - startX; const dy = currentY - startY;
-fotoX += dx * (canvas.width / rect.width); fotoY += dy * (canvas.height / rect.height);
-startX = currentX; startY = currentY;
-gambarUlangCanvas();
-});
-window.addEventListener('touchend', () => isDragging = false);
-function downloadHasil() {
-const link = document.createElement('a');
-link.download = 'twibbon-' + namaMember.toLowerCase().replace(/\s+/g, '-') + '.png';
-link.href = canvas.toDataURL('image/png');
-link.click();
-}
-
-
-
-### 💡 Cara Cek Hasil Akhirnya:
-1. Setelah kamu **Commit** di GitHub, silakan tunggu 10 detik agar Vercel membaca pembaruan kodenya.
-2. Buka web kamu (`twibbon-komunitas.vercel.app`) lewat **Mode Penyamaran (Incognito Window)** atau tekan **`Ctrl + F5`** di keyboard agar browser tidak memakai memori lama.
-3. Sekarang, logo emas premium kamu dijamin langsung muncul, ada tombol intip kata sandi (mata), dan kamu bisa masuk menggunakan sandi baru: **`cr75rda`**.
-
-<FollowUp>
-Silakan dicoba pasang kode utuh ini ke GitHub kamu ya, Bro. 
-
-Kabari gua kalau kamu sudah klik tombol **ikon mata**-nya dan berhasil masuk login melihat ruang kerja edit fotonya!
-</FollowUp>
