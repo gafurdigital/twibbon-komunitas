@@ -5,170 +5,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Twibbon Resmi Komunitas</title>
     <style>
-        body { 
-            background-color: #f3f4f6; 
-            font-family: sans-serif; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            padding: 16px; 
-            margin: 0; 
-            min-height: 100vh; 
-            box-sizing: border-box; 
-        }
-        .card { 
-            background-color: white; 
-            padding: 32px; 
-            border-radius: 16px; 
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); 
-            width: 100%; 
-            max-width: 440px; 
-            text-align: center; 
-            box-sizing: border-box; 
-        }
-        .title { 
-            font-size: 24px; 
-            font-weight: bold; 
-            color: #1f2937; 
-            margin-bottom: 8px; 
-            margin-top: 0; 
-            cursor: pointer;
-        }
-        .subtitle { 
-            font-size: 14px; 
-            color: #6b7280; 
-            margin-bottom: 24px; 
-        }
-        .pwd-container {
-            position: relative;
-            width: 100%;
-            margin-bottom: 16px;
-        }
-        .input-text { 
-            width: 100%; 
-            padding: 12px; 
-            border: 1px solid #d1d5db; 
-            border-radius: 8px; 
-            text-align: center; 
-            box-sizing: border-box; 
-            font-weight: 600; 
-            font-size: 14px;
-        }
-        .btn-eye {
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 18px;
-            padding: 0;
-            color: #6b7280;
-        }
-        .btn-blue { 
-            width: 100%; 
-            background: #2563eb; 
-            color: white; 
-            font-weight: 600; 
-            padding: 12px; 
-            border: none; 
-            border-radius: 8px; 
-            cursor: pointer; 
-            transition: 0.2s; 
-            font-size: 14px;
-        }
-        .btn-blue:hover { 
-            background: #1d4ed8; 
-        }
-        .error-text { 
-            color: #ef4444; 
-            font-size: 14px; 
-            margin-top: 12px; 
-            display: none; 
-        }
-        #canvasContainer canvas { 
-            max-width: 100%; 
-            height: auto !important; 
-            border-radius: 12px; 
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); 
-        }
-        .control-group { 
-            text-align: left; 
-            margin-bottom: 16px; 
-        }
-        .control-group label { 
-            display: block; 
-            font-size: 14px; 
-            font-weight: 500; 
-            color: #374151; 
-            margin-bottom: 6px; 
-        }
-        .select-box { 
-            width: 100%; 
-            padding: 10px; 
-            border: 1px solid #d1d5db; 
-            border-radius: 8px; 
-            background: white; 
-            font-size: 14px; 
-        }
-        .range-slider { 
-            width: 100%; 
-            margin-top: 8px; 
-            accent-color: #2563eb; 
-        }
-        .btn-download { 
-            width: 100%; 
-            background: #9ca3af; 
-            color: white; 
-            font-weight: bold; 
-            padding: 14px; 
-            border: none; 
-            border-radius: 12px; 
-            cursor: not-allowed; 
-            margin-top: 16px; 
-            font-size: 16px;
-        }
+        * { box-sizing: border-box; }
+        body { background-color: #f3f4f6; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 16px; margin: 0; min-height: 100vh; }
+        .card { background-color: #fff; padding: 32px; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); width: 100%; max-width: 440px; text-align: center; }
+        .title { font-size: 24px; font-weight: bold; color: #1f2937; margin: 0 0 8px; cursor: pointer; user-select: none; }
+        .subtitle { font-size: 14px; color: #6b7280; margin: 0 0 24px; }
+        .pwd-container { position: relative; width: 100%; margin-bottom: 16px; }
+        .input-text { width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; text-align: center; font-weight: 600; font-size: 14px; }
+        .pwd-container .input-text { padding-right: 44px; padding-left: 44px; }
+        .btn-eye { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 18px; padding: 6px; color: #6b7280; line-height: 1; }
+        .btn-blue { width: 100%; background: #2563eb; color: #fff; font-weight: 600; padding: 12px; border: none; border-radius: 8px; cursor: pointer; transition: 0.2s; font-size: 14px; }
+        .btn-blue:hover { background: #1d4ed8; }
+        .error-text { color: #ef4444; font-size: 14px; margin: 12px 0 0; display: none; }
+        .logo-wrap { display: flex; justify-content: center; margin-bottom: 16px; }
+        #canvasContainer { display: flex; justify-content: center; margin-bottom: 24px; background: #f9fafb; padding: 8px; border-radius: 12px; border: 1px dashed #d1d5db; }
+        #twibbonCanvas { width: 100%; max-width: 360px; aspect-ratio: 1/1; height: auto; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); touch-action: none; cursor: grab; background: #fff; }
+        .control-group { text-align: left; margin-bottom: 16px; }
+        .control-group label { display: block; font-size: 14px; font-weight: 500; color: #374151; margin-bottom: 6px; }
+        .select-box { width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; background: #fff; font-size: 14px; }
+        .range-slider { width: 100%; margin-top: 8px; accent-color: #2563eb; }
+        .btn-download { width: 100%; background: #9ca3af; color: #fff; font-weight: bold; padding: 14px; border: none; border-radius: 12px; cursor: not-allowed; margin-top: 16px; font-size: 16px; transition: 0.2s; }
+        .btn-download.aktif { background: #16a34a; cursor: pointer; }
+        .btn-download.aktif:hover { background: #15803d; }
+        .hint { font-size: 12px; color: #6b7280; margin: 6px 0 0; }
     </style>
 </head>
 <body>
 
     <!-- 1. HALAMAN LOGIN -->
     <div id="loginPage" class="card">
-        <div style="display:flex; justify-content:center; margin-bottom:16px;">
-            <img src="" id="communityLogoLogin" alt="Logo CR75" style="width:100px; height:100px; object-fit:contain; display:block;">
+        <div class="logo-wrap">
+            <img id="communityLogoLogin" alt="Logo CR75" style="width:100px; height:100px; object-fit:contain; display:block;">
         </div>
-        <h1 class="title" onclick="bypassKlik()">🛡️ Twibbon Komunitas</h1>
+        <h1 class="title" id="judulLogin">🛡️ Twibbon Komunitas</h1>
         <p class="subtitle">Masukkan kata sandi komunitas untuk mengakses aplikasi.</p>
-        
+
         <div class="pwd-container">
-            <input type="password" id="passwordInput" placeholder="Kata Sandi Komunitas" class="input-text">
-            <button type="button" onclick="togglePasswordVisibility()" class="btn-eye" id="eyeIcon">👁️</button>
+            <input type="password" id="passwordInput" placeholder="Kata Sandi Komunitas" class="input-text" autocomplete="off">
+            <button type="button" class="btn-eye" id="eyeIcon" aria-label="Tampilkan atau sembunyikan kata sandi">👁️</button>
         </div>
-        
-        <button onclick="cekPassword()" class="btn-blue">Masuk Aplikasi</button>
+
+        <button type="button" id="btnMasuk" class="btn-blue">Masuk Aplikasi</button>
         <p id="loginError" class="error-text">Kata sandi salah, Bro! Silakan tanya admin.</p>
     </div>
 
     <!-- 2. HALAMAN UTAMA TWIBBON -->
-    <div id="mainPage" class="card" style="display: none; max-width: 500px;">
-        <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 16px; border-bottom: 1px solid #f3f4f6; padding-bottom: 16px;">
-            <img src="" id="communityLogoMain" alt="Logo CR75" style="width:50px; height:50px; object-fit:contain;">
-            <div style="text-align: left; margin-left: 8px;">
+    <div id="mainPage" class="card" style="display:none; max-width:500px;">
+        <div style="display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:16px; border-bottom:1px solid #f3f4f6; padding-bottom:16px;">
+            <img id="communityLogoMain" alt="Logo CR75" style="width:50px; height:50px; object-fit:contain;">
+            <div style="text-align:left; margin-left:8px;">
                 <h1 style="font-size:18px; font-weight:bold; color:#1f2937; margin:0;">Twibbon Maker</h1>
                 <p style="font-size:12px; color:#6b7280; margin:0;">Official Community Web App</p>
             </div>
         </div>
 
-        <div id="canvasContainer" style="display:flex; justify-content:center; margin-bottom:24px; background:#f9fafb; padding:8px; border-radius:12px; border:1px dashed #d1d5db;">
-            <canvas id="twibbonCanvas" width="800" height="800" style="width: 100%; max-width:360px; aspect-ratio: 1/1;"></canvas>
+        <div id="canvasContainer">
+            <canvas id="twibbonCanvas" width="800" height="800"></canvas>
         </div>
 
-        <div style="max-width: 360px; margin: 0 auto;">
+        <div style="max-width:360px; margin:0 auto;">
             <div class="control-group">
-                <label>1. Pilih Bingkai / Peringkat</label>
-                <select id="pilihBingkai" onchange="gantiBingkai(this.value)" class="select-box">
+                <label for="pilihBingkai">1. Pilih Bingkai / Peringkat</label>
+                <select id="pilihBingkai" class="select-box">
                     <option value="umum">Bingkai Utama (Semua Member)</option>
                     <option value="rank1">Bingkai Peringkat 1 (Bronze)</option>
                     <option value="rank2">Bingkai Peringkat 2 (Silver)</option>
@@ -176,98 +74,295 @@
             </div>
 
             <div class="control-group">
-                <label>2. Tulis Nama Member</label>
-                <input type="text" id="inputNama" oninput="updateNama(this.value)" placeholder="CONTOH: BUDI SANTOSO" class="input-text" style="text-transform: uppercase; margin-bottom: 0;">
+                <label for="inputNama">2. Tulis Nama Member</label>
+                <input type="text" id="inputNama" placeholder="CONTOH: BUDI SANTOSO" class="input-text" style="text-transform:uppercase;" maxlength="30">
             </div>
 
-            <div class="control-group" style="margin-top: 16px;">
-                <label>3. Upload Fotomu</label>
-                <input type="file" id="uploadFoto" accept="image/*" style="font-size:14px; color:#6b7280; width: 100%;">
+            <div class="control-group">
+                <label for="uploadFoto">3. Upload Fotomu</label>
+                <input type="file" id="uploadFoto" accept="image/*" style="font-size:14px; color:#6b7280; width:100%;">
             </div>
 
             <div id="sliderKontrol" class="control-group" style="display:none;">
-                <label>4. Atur Ukuran Foto (Zoom)</label>
+                <label for="zoomSlider">4. Atur Ukuran Foto (Zoom)</label>
                 <input type="range" id="zoomSlider" min="0.1" max="3" step="0.01" value="1" class="range-slider">
+                <p class="hint">Geser foto langsung di kanvas untuk mengatur posisi.</p>
             </div>
 
-            <button id="btnDownload" onclick="downloadHasil()" disabled class="btn-download">
-                5. Download Twibbon
-            </button>
+            <button type="button" id="btnDownload" disabled class="btn-download">5. Download Twibbon</button>
         </div>
     </div>
 
     <script>
-        // --- KONFIGURASI UTAMA ---
-        const PASSWORD_KOMUNITAS = "cr75rda"; 
-        const URL_LOGO_KOMUNITAS = "https://i.ibb.co.com/DDWkMQfc/image-removebg-preview-1.png"; 
+        // ====== PENGATURAN ======
+        const PASSWORD_KOMUNITAS = "cr75rda";
 
+        // Isi dengan LINK LANGSUNG gambar, contoh: https://i.ibb.co/xxxxxx/logo.png
+        // (bukan link halaman ibb.co/xxxx). Jika kosong/gagal, logo bawaan dipakai.
+        const URL_LOGO_KOMUNITAS = "";
+
+        // Isi dengan URL PNG transparan 800x800. Jika kosong/gagal, bingkai bawaan digambar otomatis.
         const DAFTAR_BINGKAI = {
-            umum: "https://picsum.photos",  
-            rank1: "https://picsum.photos", 
-            rank2: "https://picsum.photos"  
+            umum: "",
+            rank1: "",
+            rank2: ""
         };
 
-        // Memasang gambar logo ke elemen HTML
-        document.getElementById('communityLogoLogin').src = URL_LOGO_KOMUNITAS;
-        document.getElementById('communityLogoMain').src = URL_LOGO_KOMUNITAS;
+        const WARNA_BINGKAI = {
+            umum: "#2563eb",
+            rank1: "#b45309",
+            rank2: "#6b7280"
+        };
 
-        const canvas = document.getElementById('twibbonCanvas');
+        const LOGO_FALLBACK = "data:image/svg+xml;utf8," + encodeURIComponent(
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">' +
+            '<circle cx="50" cy="50" r="48" fill="#2563eb"/>' +
+            '<text x="50" y="58" font-size="26" font-weight="bold" text-anchor="middle" fill="#fff" font-family="Arial,sans-serif">CR75</text>' +
+            '</svg>'
+        );
+
+        // ====== ELEMEN ======
+        const $ = (id) => document.getElementById(id);
+        const canvas = $('twibbonCanvas');
         const ctx = canvas.getContext('2d');
-        let fotoUser = new Image();
-        let bingkaiTwibbon = new Image();
 
+        let fotoUser = null;
+        let bingkaiTwibbon = null;
+        let bingkaiKey = 'umum';
         let namaMember = "";
-        let fotoX = 400, fotoY = 400;
+        let fotoX = canvas.width / 2, fotoY = canvas.height / 2;
         let fotoScale = 1;
         let isDragging = false;
-        let startX, startY;
+        let startX = 0, startY = 0;
         let klikCount = 0;
 
-        // Fungsi Show / Hide Password via Ikon Mata
+        // ====== LOGO ======
+        function pasangLogo(imgEl) {
+            imgEl.onerror = function () {
+                imgEl.onerror = null;
+                imgEl.src = LOGO_FALLBACK;
+            };
+            imgEl.src = URL_LOGO_KOMUNITAS || LOGO_FALLBACK;
+        }
+        pasangLogo($('communityLogoLogin'));
+        pasangLogo($('communityLogoMain'));
+
+        // ====== LOGIN ======
         function togglePasswordVisibility() {
-            const pwdInput = document.getElementById('passwordInput');
-            const eyeIcon = document.getElementById('eyeIcon');
+            const pwdInput = $('passwordInput');
+            const eyeIcon = $('eyeIcon');
             if (pwdInput.type === "password") {
                 pwdInput.type = "text";
-                eyeIcon.innerText = "🙈";
+                eyeIcon.textContent = "🙈";
             } else {
                 pwdInput.type = "password";
-                eyeIcon.innerText = "👁️";
-            }
-        }
-
-        // Fitur Rahasia Masuk Paksa (Bypass Klik Judul 3x)
-        function bypassKlik() {
-            klikCount++;
-            if(klikCount >= 3) {
-                bukaAplikasi();
+                eyeIcon.textContent = "👁️";
             }
         }
 
         function cekPassword() {
-            const input = document.getElementById('passwordInput').value.trim();
+            const input = $('passwordInput').value.trim();
             if (input === PASSWORD_KOMUNITAS) {
+                $('loginError').style.display = 'none';
                 bukaAplikasi();
             } else {
-                document.getElementById('loginError').style.display = 'block';
+                $('loginError').style.display = 'block';
             }
         }
 
+        function bypassKlik() {
+            klikCount++;
+            if (klikCount >= 3) bukaAplikasi();
+        }
+
         function bukaAplikasi() {
-            document.getElementById('loginPage').style.display = 'none';
-            document.getElementById('mainPage').style.display = 'block';
-            gantiBingkai('umum');
+            $('loginPage').style.display = 'none';
+            $('mainPage').style.display = 'block';
+            gantiBingkai(bingkaiKey);
         }
 
+        $('eyeIcon').addEventListener('click', togglePasswordVisibility);
+        $('btnMasuk').addEventListener('click', cekPassword);
+        $('judulLogin').addEventListener('click', bypassKlik);
+        $('passwordInput').addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') cekPassword();
+        });
+
+        // ====== BINGKAI ======
         function gantiBingkai(key) {
-            bingkaiTwibbon.crossOrigin = "anonymous"; 
-            bingkaiTwibbon.src = DAFTAR_BINGKAI[key];
-            bingkaiTwibbon.onload = () => { gambarUlangCanvas(); };
-        }
+            bingkaiKey = DAFTAR_BINGKAI.hasOwnProperty(key) ? key : 'umum';
+            bingkaiTwibbon = null;
+            const url = DAFTAR_BINGKAI[bingkaiKey];
+            if (!url) { gambarUlangCanvas(); return; }
 
-        function updateNama(teks) {
-            namaMember = teks.toUpperCase(); 
+            const img = new Image();
+            img.crossOrigin = "anonymous";
+            img.onload = function () { bingkaiTwibbon = img; gambarUlangCanvas(); };
+            img.onerror = function () { bingkaiTwibbon = null; gambarUlangCanvas(); };
+            img.src = url;
             gambarUlangCanvas();
         }
 
-        document.getElementById('uploadFoto').addEventListener('change', function(e) {
+        $('pilihBingkai').addEventListener('change', function () {
+            gantiBingkai(this.value);
+        });
+
+        // ====== NAMA ======
+        $('inputNama').addEventListener('input', function () {
+            namaMember = this.value.toUpperCase();
+            gambarUlangCanvas();
+        });
+
+        // ====== UPLOAD FOTO ======
+        $('uploadFoto').addEventListener('change', function (e) {
+            const file = e.target.files && e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                const img = new Image();
+                img.onload = function () {
+                    fotoUser = img;
+                    fotoX = canvas.width / 2;
+                    fotoY = canvas.height / 2;
+                    fotoScale = Math.max(canvas.width / img.width, canvas.height / img.height);
+
+                    const slider = $('zoomSlider');
+                    slider.min = (fotoScale * 0.3).toFixed(3);
+                    slider.max = (fotoScale * 4).toFixed(3);
+                    slider.step = (fotoScale / 100).toFixed(4);
+                    slider.value = fotoScale;
+
+                    $('sliderKontrol').style.display = 'block';
+                    const btn = $('btnDownload');
+                    btn.disabled = false;
+                    btn.classList.add('aktif');
+                    gambarUlangCanvas();
+                };
+                img.onerror = function () { alert("Foto tidak dapat dibaca. Coba file lain."); };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+
+        $('zoomSlider').addEventListener('input', function () {
+            fotoScale = parseFloat(this.value);
+            gambarUlangCanvas();
+        });
+
+        // ====== DRAG FOTO ======
+        function posisiPointer(e) {
+            const rect = canvas.getBoundingClientRect();
+            return {
+                x: (e.clientX - rect.left) * (canvas.width / rect.width),
+                y: (e.clientY - rect.top) * (canvas.height / rect.height)
+            };
+        }
+
+        canvas.addEventListener('pointerdown', function (e) {
+            if (!fotoUser) return;
+            isDragging = true;
+            const p = posisiPointer(e);
+            startX = p.x - fotoX;
+            startY = p.y - fotoY;
+            canvas.style.cursor = 'grabbing';
+            try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
+        });
+        canvas.addEventListener('pointermove', function (e) {
+            if (!isDragging) return;
+            const p = posisiPointer(e);
+            fotoX = p.x - startX;
+            fotoY = p.y - startY;
+            gambarUlangCanvas();
+        });
+        function stopDrag() { isDragging = false; canvas.style.cursor = 'grab'; }
+        canvas.addEventListener('pointerup', stopDrag);
+        canvas.addEventListener('pointercancel', stopDrag);
+
+        // ====== GAMBAR ======
+        function gambarBingkaiBawaan() {
+            const w = canvas.width, h = canvas.height;
+            const warna = WARNA_BINGKAI[bingkaiKey] || "#2563eb";
+            const tebal = 28;
+            const tinggiBand = 150;
+
+            ctx.save();
+            ctx.fillStyle = warna;
+            ctx.fillRect(0, 0, w, tebal);
+            ctx.fillRect(0, 0, tebal, h);
+            ctx.fillRect(w - tebal, 0, tebal, h);
+            ctx.fillRect(0, h - tinggiBand, w, tinggiBand);
+            ctx.restore();
+        }
+
+        function gambarNama() {
+            if (!namaMember) return;
+            const w = canvas.width, h = canvas.height;
+            ctx.save();
+            ctx.fillStyle = "#ffffff";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            let ukuran = 52;
+            ctx.font = "bold " + ukuran + "px sans-serif";
+            const maxLebar = w - 120;
+            while (ctx.measureText(namaMember).width > maxLebar && ukuran > 20) {
+                ukuran -= 2;
+                ctx.font = "bold " + ukuran + "px sans-serif";
+            }
+            ctx.shadowColor = "rgba(0,0,0,0.5)";
+            ctx.shadowBlur = 6;
+            ctx.fillText(namaMember, w / 2, h - 75);
+            ctx.restore();
+        }
+
+        function gambarUlangCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#e5e7eb";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            if (fotoUser) {
+                const lebar = fotoUser.width * fotoScale;
+                const tinggi = fotoUser.height * fotoScale;
+                ctx.drawImage(fotoUser, fotoX - lebar / 2, fotoY - tinggi / 2, lebar, tinggi);
+            } else {
+                ctx.fillStyle = "#9ca3af";
+                ctx.font = "32px sans-serif";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillText("Upload fotomu untuk mulai", canvas.width / 2, canvas.height / 2 - 40);
+            }
+
+            if (bingkaiTwibbon) {
+                ctx.drawImage(bingkaiTwibbon, 0, 0, canvas.width, canvas.height);
+            } else {
+                gambarBingkaiBawaan();
+            }
+            gambarNama();
+        }
+
+        // ====== DOWNLOAD ======
+        function downloadHasil() {
+            if (!fotoUser) return;
+            try {
+                canvas.toBlob(function (blob) {
+                    if (!blob) { alert("Gagal membuat gambar."); return; }
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    const nama = namaMember ? namaMember.replace(/[^A-Z0-9]+/g, "_") : "member";
+                    a.href = url;
+                    a.download = "Twibbon_" + nama + ".png";
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+                }, "image/png");
+            } catch (err) {
+                alert("Download gagal. Pastikan gambar bingkai berasal dari host yang mengizinkan CORS (ImgBB biasanya aman).");
+            }
+        }
+        $('btnDownload').addEventListener('click', downloadHasil);
+
+        // Gambar awal
+        gambarUlangCanvas();
+    </script>
+</body>
+</html>
