@@ -28,6 +28,10 @@
         .btn-download.aktif { background: #16a34a; cursor: pointer; }
         .btn-download.aktif:hover { background: #15803d; }
         .hint { font-size: 12px; color: #6b7280; margin: 6px 0 0; }
+        .warna-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .warna-row input[type="color"] { width: 48px; height: 36px; border: 1px solid #d1d5db; border-radius: 8px; padding: 2px; background: #fff; cursor: pointer; }
+        .swatch { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #d1d5db; cursor: pointer; padding: 0; }
+        .swatch:hover { border-color: #2563eb; }
     </style>
 </head>
 <body>
@@ -67,7 +71,7 @@
             <div class="control-group">
                 <label for="pilihBingkai">1. Pilih Bingkai / Peringkat</label>
                 <select id="pilihBingkai" class="select-box">
-                    <option value="umum">CR75-RDA (Semua Member)</option>
+                    <option value="umum">Bingkai Utama (Semua Member)</option>
                     <option value="rank1">Bingkai Peringkat 1 (Bronze)</option>
                     <option value="rank2">Bingkai Peringkat 2 (Silver)</option>
                 </select>
@@ -76,6 +80,18 @@
             <div class="control-group">
                 <label for="inputNama">2. Tulis Nama Member</label>
                 <input type="text" id="inputNama" placeholder="CONTOH: BUDI SANTOSO" class="input-text" style="text-transform:uppercase;" maxlength="30">
+            </div>
+
+            <div class="control-group">
+                <label for="warnaNama">Warna Tulisan Nama</label>
+                <div class="warna-row">
+                    <input type="color" id="warnaNama" value="#1f2937">
+                    <button type="button" class="swatch" data-warna="#1f2937" style="background:#1f2937;" aria-label="Abu gelap"></button>
+                    <button type="button" class="swatch" data-warna="#000000" style="background:#000000;" aria-label="Hitam"></button>
+                    <button type="button" class="swatch" data-warna="#9a3412" style="background:#9a3412;" aria-label="Cokelat"></button>
+                    <button type="button" class="swatch" data-warna="#1d4ed8" style="background:#1d4ed8;" aria-label="Biru"></button>
+                    <button type="button" class="swatch" data-warna="#ffffff" style="background:#ffffff;" aria-label="Putih"></button>
+                </div>
             </div>
 
             <div class="control-group">
@@ -94,25 +110,34 @@
     </div>
 
     <script>
-        // ====== PENGATURAN ======
+        // ================= PENGATURAN =================
         const PASSWORD_KOMUNITAS = "cr75rda";
 
-        // Isi dengan LINK LANGSUNG gambar, contoh: https://i.ibb.co/xxxxxx/logo.png
-        // (bukan link halaman ibb.co/xxxx). Jika kosong/gagal, logo bawaan dipakai.
-        const URL_LOGO_KOMUNITAS = "https://i.ibb.co.com/DDWkMQfc/image-removebg-preview-1.png";
+        // ← ISI URL: copy dari file lama Anda (link langsung gambar, contoh https://i.ibb.co/xxxx/logo.png)
+        const URL_LOGO_KOMUNITAS = "";
 
-        // Isi dengan URL PNG transparan 800x800. Jika kosong/gagal, bingkai bawaan digambar otomatis.
         const DAFTAR_BINGKAI = {
-            umum: "",
-            rank1: "https://i.ibb.co.com/8D8dr4c1/twibbronzrda.png",
-            rank2: ""
+            umum:  "",   // ← ISI URL bingkai utama
+            rank1: "https://i.ibb.co.com/8D8dr4c1/twibbronzrda.png",   // ← ISI URL bingkai Bronze
+            rank2: ""    // ← ISI URL bingkai Silver
         };
 
+        // Posisi & warna tulisan nama per bingkai (kanvas 800x800).
+        // x: titik tengah horizontal | y: titik tengah vertikal (makin BESAR = makin ke BAWAH)
+        // lebar: lebar maksimal teks | warna: warna bawaan saat bingkai dipilih
+        const POSISI_NAMA = {
+            umum:  { x: 400, y: 680, lebar: 400, warna: "#1f2937" },
+            rank1: { x: 400, y: 680, lebar: 400, warna: "#1f2937" },
+            rank2: { x: 400, y: 680, lebar: 400, warna: "#1f2937" }
+        };
+
+        // Warna bingkai bawaan (dipakai hanya jika URL bingkai kosong/gagal dimuat)
         const WARNA_BINGKAI = {
             umum: "#2563eb",
             rank1: "#b45309",
             rank2: "#6b7280"
         };
+        // ===============================================
 
         const LOGO_FALLBACK = "data:image/svg+xml;utf8," + encodeURIComponent(
             '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">' +
@@ -121,7 +146,6 @@
             '</svg>'
         );
 
-        // ====== ELEMEN ======
         const $ = (id) => document.getElementById(id);
         const canvas = $('twibbonCanvas');
         const ctx = canvas.getContext('2d');
@@ -130,6 +154,7 @@
         let bingkaiTwibbon = null;
         let bingkaiKey = 'umum';
         let namaMember = "";
+        let warnaNama = POSISI_NAMA.umum.warna;
         let fotoX = canvas.width / 2, fotoY = canvas.height / 2;
         let fotoScale = 1;
         let isDragging = false;
@@ -188,16 +213,34 @@
             if (e.key === 'Enter') cekPassword();
         });
 
+        // ====== WARNA NAMA ======
+        function setWarnaNama(w) {
+            warnaNama = w;
+            $('warnaNama').value = w;
+            gambarUlangCanvas();
+        }
+        $('warnaNama').addEventListener('input', function () { setWarnaNama(this.value); });
+        document.querySelectorAll('.swatch').forEach(function (b) {
+            b.addEventListener('click', function () { setWarnaNama(b.dataset.warna); });
+        });
+
         // ====== BINGKAI ======
         function gantiBingkai(key) {
             bingkaiKey = DAFTAR_BINGKAI.hasOwnProperty(key) ? key : 'umum';
             bingkaiTwibbon = null;
+
+            // warna nama kembali ke warna bawaan bingkai
+            warnaNama = POSISI_NAMA[bingkaiKey].warna;
+            $('warnaNama').value = warnaNama;
+
             const url = DAFTAR_BINGKAI[bingkaiKey];
             if (!url) { gambarUlangCanvas(); return; }
 
             const img = new Image();
             img.crossOrigin = "anonymous";
-            img.onload = function () { bingkaiTwibbon = img; gambarUlangCanvas(); };
+            img.onload = function () {
+                if (bingkaiKey === key) { bingkaiTwibbon = img; gambarUlangCanvas(); }
+            };
             img.onerror = function () { bingkaiTwibbon = null; gambarUlangCanvas(); };
             img.src = url;
             gambarUlangCanvas();
@@ -284,7 +327,6 @@
             const warna = WARNA_BINGKAI[bingkaiKey] || "#2563eb";
             const tebal = 28;
             const tinggiBand = 150;
-
             ctx.save();
             ctx.fillStyle = warna;
             ctx.fillRect(0, 0, w, tebal);
@@ -296,21 +338,18 @@
 
         function gambarNama() {
             if (!namaMember) return;
-            const w = canvas.width, h = canvas.height;
+            const pos = POSISI_NAMA[bingkaiKey] || POSISI_NAMA.umum;
             ctx.save();
-            ctx.fillStyle = "#ffffff";
+            ctx.fillStyle = warnaNama;
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
-            let ukuran = 52;
+            let ukuran = 56;
             ctx.font = "bold " + ukuran + "px sans-serif";
-            const maxLebar = w - 120;
-            while (ctx.measureText(namaMember).width > maxLebar && ukuran > 20) {
+            while (ctx.measureText(namaMember).width > pos.lebar && ukuran > 20) {
                 ukuran -= 2;
                 ctx.font = "bold " + ukuran + "px sans-serif";
             }
-            ctx.shadowColor = "rgba(0,0,0,0.5)";
-            ctx.shadowBlur = 6;
-            ctx.fillText(namaMember, w / 2, h - 75);
+            ctx.fillText(namaMember, pos.x, pos.y);
             ctx.restore();
         }
 
